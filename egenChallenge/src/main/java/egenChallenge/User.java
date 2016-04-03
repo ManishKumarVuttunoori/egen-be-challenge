@@ -10,15 +10,15 @@ public class User {
 	private String lastName;
 	private String email;
 	private Address address;
-	String dateCreated;
-	Company company;
-	String profilePic;
+	private String dateCreated;
+	private Company company;
+	private String profilePic;
 	
 	public User(){}
 	
 	public User(String id, String firstName, String lastName, String email, String street, String city, String zip, String state, String country, String compName, String compWebsite, String profilePic)
 	{ 	
-		this.id = id;
+		this.id = firstName+lastName+email;
 		MessageDigest messageDigest;
 		try {
 			messageDigest = MessageDigest.getInstance("SHA-256");
@@ -27,36 +27,76 @@ public class User {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.address = new Address(street, city, zip, state, country);
-		this.dateCreated =new Date().toString();
-		this.company = new Company(compName, compWebsite);
-		this.profilePic = profilePic;
-		
-		
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setEmail(email);
+		this.setAddress(new Address(street, city, zip, state, country));
+		this.setDateCreated(new Date().toString());
+		this.setCompany(new Company(compName, compWebsite));
+		this.setProfilePic(profilePic);		
 	}
 	
-	public String getId(){
-		return this.id;
+	public String getId() {
+		return id;
 	}
-	public String getfirstName(){
-		return this.firstName;
+
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getlastName(){
-		return this.lastName;
+	
+	public String getDateCreated() {
+		return dateCreated;
 	}
-	public String getEmail(){
-		return this.email;
+
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
 	}
-	public Address getAddress(){
-		return this.address;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public Company getCompany(){
-		return this.company;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getProfilePic(){
-		return this.profilePic;
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
 	}
 }

@@ -12,15 +12,22 @@ public class Company {
 		
 	}
 	public Company(String compName, String compWebsite){
-		this.compName = compName;
+		this.setCompName(compName);
+		this.setCompWebsite(compWebsite);
+	}
+	public String getCompWebsite() {
+		return compWebsite;
+	}
+	public void setCompWebsite(String compWebsite) {
 		this.compWebsite = compWebsite;
 	}
+	public String getCompName() {
+		return compName;
+	}
+	public void setCompName(String compName) {
+		this.compName = compName;
+	}
 	
-	public String getCompName(){
-		return this.compName;
-	}
-	public String getCompWebsite(){
-		return this.compWebsite;
-	}
+	
 	
 }

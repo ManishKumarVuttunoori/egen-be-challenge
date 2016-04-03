@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class DataParser {
-	
+	public DataParser(){}
 	public static String dataToJson(Object data)
 	{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
