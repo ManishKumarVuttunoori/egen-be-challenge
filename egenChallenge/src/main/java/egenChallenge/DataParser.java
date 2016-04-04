@@ -44,11 +44,10 @@ public class DataParser {
 		return null;
 	}
 	// Second helper method to return Objects from Json format when class given as string 
-	public static Object jsonToDataArray(String json, String obj) throws ClassNotFoundException{
+	public static Object jsonToDataArray(String json, Class obj) throws ClassNotFoundException{
 		ObjectMapper mapper = new ObjectMapper();
-		
 		try {
-			return mapper.readValue(json, Class.forName(obj));
+			return mapper.readValue(json, obj);
 		} catch (JsonParseException e) {
 			
 			e.printStackTrace();

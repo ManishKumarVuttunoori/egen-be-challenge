@@ -103,7 +103,7 @@ public class TestApplication {
 			this.data = data;
 		}
 		public User[] output() throws ClassNotFoundException{
-			return (User[])DataParser.jsonToDataArray(data,User[].class.toString());
+			return (User[])DataParser.jsonToDataArray(data,User[].class);
 		}
 	}
 }
