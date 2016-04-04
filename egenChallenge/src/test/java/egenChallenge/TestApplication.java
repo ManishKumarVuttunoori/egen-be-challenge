@@ -17,7 +17,6 @@ public class TestApplication {
 
 	@BeforeClass
 	public static void beforeClass(){
-		//Main.main(null);
 	}
 	@AfterClass
 	public static void afterClass()
