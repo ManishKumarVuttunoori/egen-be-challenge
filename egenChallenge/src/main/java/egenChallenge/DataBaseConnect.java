@@ -1,5 +1,4 @@
 package egenChallenge;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
-
+// Model class for user
 public class DataBaseConnect {
 	
 	private  MongoClient client = new MongoClient("localhost");
@@ -22,7 +21,7 @@ public class DataBaseConnect {
 		// creates database with name egendb
 		return client.getDatabase("egendb");   
 	}
-	
+	// creates a unique user in database
 	public Boolean createUser(String json){
 		MongoDatabase db = getConnection();
 		Document docToInsert = Document.parse(json);
@@ -33,11 +32,10 @@ public class DataBaseConnect {
 			FindIterable<Document> iterable = db.getCollection("users").find(new Document("id", hashToCompare)); 
 			
 			if (iterable.first()!=null)
-			{	// user already exists
+			{	// Existing user
 				return false;
 			}
 			else{
-			
 				db.getCollection("users").insertOne(docToInsert);
 				return true;
 			}
@@ -46,7 +44,6 @@ public class DataBaseConnect {
 		{	// received data is not in required Json format
 			return false;
 		}
-		//  calling getAllUsers---
 	
 	}
 	
@@ -69,13 +66,13 @@ public class DataBaseConnect {
 		return userList;
 	}
 	
-	public Boolean updateUser(String json)throws IOException {
+	public Boolean updateUser(String json) {
 		MongoDatabase db = getConnection();
 		
 		Document docToUpdate = Document.parse(json);
 		
 		Set <String> keys = docToUpdate.keySet();
-		if (docToUpdate.containsKey("id") && docToUpdate.get("id")!=null)
+		if (docToUpdate.get("id")!=null)
 		{
 			String hashToCompare = (String) docToUpdate.get("id");
 			FindIterable<Document> iterable = db.getCollection("users").find(new Document("id", hashToCompare)); 
@@ -88,19 +85,18 @@ public class DataBaseConnect {
 				{
 					init_key = (String)iter.next();
 					Document doc = new Document("$set", new Document(init_key, docToUpdate.get(init_key)));
-					UpdateResult result = db.getCollection("users").updateOne(new Document("id",hashToCompare),doc);
-					
-					System.out.println(result);	
+					UpdateResult result = db.getCollection("users").updateOne(new Document("id",hashToCompare),doc);	
 				}
 				return true;
 			}
 			else{
-				// find a way to send back 404 response
+				// send back 404 response
 				return false;
 			} 
 		}
 		else{
-			return null;
+			// return as invalid data is sent
+			return false;
 		}
 	}
 }

@@ -51,10 +51,32 @@ public class TestApplication {
 		assertEquals( "\"Update Succesful\"",res.data);
 	}
 	@Test
+	public void updateNonExistingUser(){
+		ResponseClass res = request("GET", "/updateUser?firstName=Manish&lastName=Vuttunoori&email=john@foobar.com&street=test&city=Bloomington1&state=IN&country=USA&compName=Egen&profilePic=www.google.com");
+		assertEquals(404, res.status);
+		assertEquals( "\"Update unsuccesful\"",res.data);
+	}
+	@Test
 	public void createInvalidUser(){
 		ResponseClass res = request("GET", "/createUser?street=test&city=Bloomington&state=IN&country=USA&compName=Egen&profilePic=www.google.com");
 		assertEquals(404, res.status);
-		assertEquals("\"invalid ID\"", res.data);
+		assertEquals("\"Either user exists or not a valid user\"", res.data);
+	}
+	
+	@Test
+	public void getCreatedUsers(){
+		ResponseClass res = request("GET", "/getUsers");
+		assertEquals(200, res.status);
+		User[] data;
+		try {
+			data = res.output();
+			//atleast one user must exist after performing above test cases
+			assertNotNull(data[0].getId());
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 	private ResponseClass request(String method, String path) {
 		try {
@@ -67,7 +89,7 @@ public class TestApplication {
 			return new ResponseClass(connection.getResponseCode(), body);
 		} catch (IOException e) {
 			e.printStackTrace();
-			fail("Sending request failed: " + e.getMessage());
+			fail("Sending Request failed due to an error: " + e.getMessage());
 			return null;
 		}
 	}
@@ -80,8 +102,8 @@ public class TestApplication {
 			this.status = status;
 			this.data = data;
 		}
-		public User output(){
-			return (User)DataParser.jsonToData(data,new User());
+		public User[] output() throws ClassNotFoundException{
+			return (User[])DataParser.jsonToDataArray(data,User[].class.toString());
 		}
 	}
 }

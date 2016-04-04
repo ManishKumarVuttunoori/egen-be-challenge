@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class DataParser {
 	public DataParser(){}
+	// converts given object to Json
 	public static String dataToJson(Object data)
 	{
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -18,28 +19,47 @@ public class DataParser {
 			 String json = ow.writeValueAsString(data);
 			 return json;
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;
 		
 	}
-	
+	// helper method to return Object from Json format when object is given as input
 	public static Object jsonToData(String json, Object obj){
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
 			return mapper.readValue(json, obj.getClass());
 		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;
 	}
+	// Second helper method to return Objects from Json format when class given as string 
+	public static Object jsonToDataArray(String json, String obj) throws ClassNotFoundException{
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			return mapper.readValue(json, Class.forName(obj));
+		} catch (JsonParseException e) {
+			
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

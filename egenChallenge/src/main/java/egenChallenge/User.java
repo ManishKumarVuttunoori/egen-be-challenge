@@ -3,6 +3,7 @@ import java.util.Date;
 import lombok.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+// User class
 @Data
 public class User  {
 	private String id;
@@ -19,6 +20,7 @@ public class User  {
 	public User(String id, String firstName, String lastName, String email, String street, String city, String zip, String state, String country, String compName, String compWebsite, String profilePic)
 	{ 	
 		this.id = firstName+lastName+email;
+		// validating user id
 		if (firstName==null || lastName==null|| email==null)
 		{	
 			this.id=null;

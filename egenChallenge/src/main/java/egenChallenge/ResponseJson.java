@@ -1,7 +1,7 @@
 package egenChallenge;
 
 import spark.ResponseTransformer;
-
+// Response Transformer implementation for Spark routes
 public class ResponseJson implements ResponseTransformer {
 	
 	@Override
