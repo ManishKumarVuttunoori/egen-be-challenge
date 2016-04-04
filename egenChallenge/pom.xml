@@ -37,7 +37,13 @@
 	<artifactId>mongo-java-driver</artifactId>
 	<version>3.2.2</version>
 	</dependency>
-
+	<!-- JUNIT Dependancy -->
+	<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.11</version>
+</dependency>
+	
     <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>

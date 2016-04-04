@@ -47,6 +47,7 @@ public class DataBaseConnect {
 		//  calling getAllUsers---
 	
 	}
+	
 	public List<User> getAllUsers(){
 	MongoDatabase db = getConnection();	
 	List<User> userList = new LinkedList<User>();

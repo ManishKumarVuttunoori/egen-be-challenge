@@ -1,6 +1,6 @@
 package egenChallenge;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 import spark.Request;
 import spark.Response;
@@ -18,15 +18,26 @@ public class UserController {
 		});
 		
 		/* creates a new user if not already present in the db*/ 
-		get("/createUser", new Route(){
+		post("/createUser", new Route(){
 			 @Override
 			 public Object handle(Request req, Response res)
 			 {
-				 res.type("application/json");
+				 
+				 String firstName = req.queryParams("firstName");
+				 String lastName = req.queryParams("lastName");
+				 String email = req.queryParams("email");
+				 String city = req.queryParams("city");
+				 String state = req.queryParams("state");
+				 String zip = req.queryParams("zip");
+				 String country = req.queryParams("country");
+				 String profilePic = req.queryParams("profilePic");
+				 String street = req.queryParams("street");
+				 String compName = req.queryParams("compName");
+				 String compWebsite = req.queryParams("compWebsite");
 				 String retVal = "";
 				// use the get parameters and get the request body here...
-					User user1 = new User("", "Manish12", "Vuttunoori", "mmans", "1","2","3","23","123","asd","hkags","sample_url");
-					 if (db.createUser(DataParser.dataToJson(user1))){
+					User user = new User("",firstName,lastName,email,street,city,zip,state,country,compName,compWebsite,profilePic);
+					 if (db.createUser(DataParser.dataToJson(user))){
 						 // user created successfully
 						 System.out.println("User created successfully!!");
 						 res.status(200);
@@ -38,6 +49,7 @@ public class UserController {
 						 res.status(404);
 						retVal = "Either user exists or not a valid user"; 
 					 }
+					 res.type("application/json");
 					 return retVal;
 			 }}, new ResponseJson());  
 
@@ -51,16 +63,29 @@ public class UserController {
 			 }}, new ResponseJson());
 		
 		/* updates a existing user and returns 404 if user not found*/
-		get("/updateUser", new Route(){
+		put("/updateUser", new Route(){
 			 @Override
 			 public Object handle(Request req, Response res)
-			 {
-				 String retVal="";
+			 {	
+				 String firstName = req.queryParams("firstName");
+				 String lastName = req.queryParams("lastName");
+				 String email = req.queryParams("email");
+				 String city = req.queryParams("city");
+				 String state = req.queryParams("state");
+				 String zip = req.queryParams("zip");
+				 String country = req.queryParams("country");
+				 String profilePic = req.queryParams("profilePic");
+				 String street = req.queryParams("street");
+				 String compName = req.queryParams("compName");
+				 String compWebsite = req.queryParams("compWebsite");
+				 String retVal = "";
+				// use the get parameters and get the request body here...
+					User user = new User("",firstName,lastName,email,street,city,zip,state,country,compName,compWebsite,profilePic);
 				 // use query parameters to get the values from the UI or url
 					// convert them to Json
-					User user2 = new User("", "Manish1", "Vuttunoori", "mmans", "1efres","efef2","ewfe3","ewfew23","123","asd","","sample_url");
+				
 					res.type("application/json");
-					if(db.updateUser(DataParser.dataToJson(user2)))
+					if(db.updateUser(DataParser.dataToJson(user)))
 					{
 						res.status(200);
 						retVal = "Update Succesful";
@@ -72,7 +97,6 @@ public class UserController {
 					}
 					return retVal;
 				}
-			 }, new ResponseJson());
-				 
+			 }, new ResponseJson());				 
 	}
 }	
