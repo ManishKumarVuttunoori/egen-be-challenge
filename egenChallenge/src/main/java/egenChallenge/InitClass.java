@@ -3,7 +3,7 @@ import static spark.Spark.*;
 
 public class InitClass {
 	public static void main(String[] args) {
-		port(4581);
+		port(4592);
 		// initialize a controller
 		new UserController(new DataBaseConnect());  
 	}

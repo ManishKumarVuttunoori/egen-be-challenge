@@ -9,20 +9,12 @@ import spark.Route;
 public class UserController {
 
 	public UserController(DataBaseConnect db){
-		/* Default page showing possible features*/
-		get("/", new Route(){
-			@Override
-			public Object handle(Request req, Response res){
-				return res.body();
-			}
-		});
 		
 		/* creates a new user if not already present in the db*/ 
-		post("/createUser", new Route(){
+		get("/createUser", new Route(){
 			 @Override
 			 public Object handle(Request req, Response res)
-			 {
-				 
+			 {	 
 				 String firstName = req.queryParams("firstName");
 				 String lastName = req.queryParams("lastName");
 				 String email = req.queryParams("email");
@@ -37,20 +29,29 @@ public class UserController {
 				 String retVal = "";
 				// use the get parameters and get the request body here...
 					User user = new User("",firstName,lastName,email,street,city,zip,state,country,compName,compWebsite,profilePic);
-					 if (db.createUser(DataParser.dataToJson(user))){
+					
+					 res.type("application/json"); 
+					if (!user.isValid())
+					{
+						res.status(404);
+						return "invalid ID";
+					}
+					if (db.createUser(DataParser.dataToJson(user))){
 						 // user created successfully
-						 System.out.println("User created successfully!!");
+						 
 						 res.status(200);
 						 retVal = "User created Successfully";
+						 return retVal;
 					 }
 					 else{
 						 //already exists  or not a valid ..set error response
-						 System.out.println("User not created successfully!!");
-						 res.status(404);
-						retVal = "Either user exists or not a valid user"; 
+						 
+						res.status(404);
+						retVal = "Either user exists or not a valid user";
+						return retVal;
 					 }
-					 res.type("application/json");
-					 return retVal;
+					
+					 
 			 }}, new ResponseJson());  
 
 		/* gets all the users from the db*/
@@ -63,7 +64,7 @@ public class UserController {
 			 }}, new ResponseJson());
 		
 		/* updates a existing user and returns 404 if user not found*/
-		put("/updateUser", new Route(){
+		get("/updateUser", new Route(){
 			 @Override
 			 public Object handle(Request req, Response res)
 			 {	
@@ -89,13 +90,16 @@ public class UserController {
 					{
 						res.status(200);
 						retVal = "Update Succesful";
+	
+						return retVal;
 					}
 					else
 					{
 						res.status(400);
 						retVal = "Update unsuccesful";
+						return retVal;
 					}
-					return retVal;
+					
 				}
 			 }, new ResponseJson());				 
 	}

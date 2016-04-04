@@ -4,7 +4,7 @@ import lombok.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 @Data
-public class User {
+public class User implements ValidateInput {
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -34,6 +34,16 @@ public class User {
 		this.setDateCreated(new Date().toString());
 		this.setCompany(new Company(compName, compWebsite));
 		this.setProfilePic(profilePic);		
+	}
+	
+	@Override
+	public Boolean isValid()
+	{
+		if(this.getFirstName()==null || this.getLastName()==null|| this.getEmail()==null)
+			return false;
+		if(this.getFirstName()=="" || this.getLastName()==""|| this.getEmail()=="")
+			return false;
+		return true;
 	}
 	
 	public String getId() {

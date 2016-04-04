@@ -25,6 +25,7 @@ public class DataBaseConnect {
 	public Boolean createUser(String json){
 		MongoDatabase db = getConnection();
 		Document docToInsert = Document.parse(json);
+		
 		if (docToInsert.containsKey("id"))
 		{
 			String hashToCompare = (String) docToInsert.get("id");
@@ -42,7 +43,7 @@ public class DataBaseConnect {
 		}
 		else
 		{	// received data is not in required Json format
-			return null;
+			return false;
 		}
 		//  calling getAllUsers---
 	
