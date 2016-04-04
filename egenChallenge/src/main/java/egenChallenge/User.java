@@ -4,7 +4,7 @@ import lombok.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 @Data
-public class User implements ValidateInput {
+public class User  {
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -19,13 +19,20 @@ public class User implements ValidateInput {
 	public User(String id, String firstName, String lastName, String email, String street, String city, String zip, String state, String country, String compName, String compWebsite, String profilePic)
 	{ 	
 		this.id = firstName+lastName+email;
-		MessageDigest messageDigest;
-		try {
-			messageDigest = MessageDigest.getInstance("SHA-256");
-			messageDigest.update(this.id.getBytes());
-			this.id = new String(messageDigest.digest());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		if (firstName==null || lastName==null|| email==null)
+		{	
+			this.id=null;
+		}
+		else
+		{
+			MessageDigest messageDigest;
+			try {
+				messageDigest = MessageDigest.getInstance("SHA-256");
+				messageDigest.update(this.id.getBytes());
+				this.id = new String(messageDigest.digest());
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
 		}
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
@@ -36,15 +43,7 @@ public class User implements ValidateInput {
 		this.setProfilePic(profilePic);		
 	}
 	
-	@Override
-	public Boolean isValid()
-	{
-		if(this.getFirstName()==null || this.getLastName()==null|| this.getEmail()==null)
-			return false;
-		if(this.getFirstName()=="" || this.getLastName()==""|| this.getEmail()=="")
-			return false;
-		return true;
-	}
+	
 	
 	public String getId() {
 		return id;

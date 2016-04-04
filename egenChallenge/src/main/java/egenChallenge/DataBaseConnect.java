@@ -1,4 +1,5 @@
 package egenChallenge;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class DataBaseConnect {
 		MongoDatabase db = getConnection();
 		Document docToInsert = Document.parse(json);
 		
-		if (docToInsert.containsKey("id"))
+		if (docToInsert.containsKey("id") && docToInsert.get("id")!=null)
 		{
 			String hashToCompare = (String) docToInsert.get("id");
 			FindIterable<Document> iterable = db.getCollection("users").find(new Document("id", hashToCompare)); 
@@ -56,7 +57,7 @@ public class DataBaseConnect {
 	iterable.forEach(new Block<Document>() {
 	    
 		@Override
-	    public void apply(final Document document) {
+	    public void apply(final Document document){
 	        try {
 				userList.add((User)DataParser.jsonToData("{"+document.toJson().substring(50),new User()));
 			}        
@@ -68,13 +69,13 @@ public class DataBaseConnect {
 		return userList;
 	}
 	
-	public Boolean updateUser(String json){
+	public Boolean updateUser(String json)throws IOException {
 		MongoDatabase db = getConnection();
 		
 		Document docToUpdate = Document.parse(json);
 		
 		Set <String> keys = docToUpdate.keySet();
-		if (docToUpdate.containsKey("id"))
+		if (docToUpdate.containsKey("id") && docToUpdate.get("id")!=null)
 		{
 			String hashToCompare = (String) docToUpdate.get("id");
 			FindIterable<Document> iterable = db.getCollection("users").find(new Document("id", hashToCompare)); 

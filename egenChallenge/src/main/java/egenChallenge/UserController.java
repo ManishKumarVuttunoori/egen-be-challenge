@@ -2,6 +2,8 @@ package egenChallenge;
 
 import static spark.Spark.*;
 
+import java.io.IOException;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -31,11 +33,11 @@ public class UserController {
 					User user = new User("",firstName,lastName,email,street,city,zip,state,country,compName,compWebsite,profilePic);
 					
 					 res.type("application/json"); 
-					if (!user.isValid())
-					{
-						res.status(404);
-						return "invalid ID";
-					}
+//					if (!user.isValid())
+//					{
+//						res.status(404);
+//						return "invalid ID";
+//					}
 					if (db.createUser(DataParser.dataToJson(user))){
 						 // user created successfully
 						 
@@ -86,19 +88,25 @@ public class UserController {
 					// convert them to Json
 				
 					res.type("application/json");
-					if(db.updateUser(DataParser.dataToJson(user)))
-					{
-						res.status(200);
-						retVal = "Update Succesful";
-	
-						return retVal;
+					try {
+						if(db.updateUser(DataParser.dataToJson(user)))
+						{
+							res.status(200);
+							retVal = "Update Succesful";
+
+							return retVal;
+						}
+						else
+						{
+							res.status(400);
+							retVal = "Update unsuccesful";
+							return retVal;
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					else
-					{
-						res.status(400);
-						retVal = "Update unsuccesful";
-						return retVal;
-					}
+					return "Update unsuccessful";
 					
 				}
 			 }, new ResponseJson());				 
